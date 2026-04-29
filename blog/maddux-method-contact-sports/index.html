@@ -18,13 +18,27 @@
 
 <header class="nav">
   <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">M</span><span>Maddux <span class="brand-sub">Chiropractic</span></span></a>
-  <nav class="nav-links" aria-label="Primary">
-    <a href="/#method">Method</a>
-    <a href="/#schedule">Schedule</a>
-    <a href="/blog/">Blog</a>
-    <a href="/#newsletter" class="btn btn-pill">Newsletter</a>
-  </nav>
+  <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<div class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <div class="nav-overlay-inner">
+    <p class="nav-overlay-eyebrow">Maddux Chiropractic</p>
+    <nav aria-label="Primary">
+      <a href="/#find">Find me</a>
+      <a href="/#method">Method</a>
+      <a href="/#about">About</a>
+      <a href="/blog/">Field notes</a>
+      <a href="/#newsletter">Newsletter</a>
+    </nav>
+    <div class="nav-overlay-foot">
+      <a href="mailto:justin@madduxdc.com">justin@madduxdc.com</a>
+      <a href="mailto:contact@madduxdc.com">contact@madduxdc.com</a>
+    </div>
+  </div>
+</div>
 
 <main class="post-wrap">
   <a href="/blog/" class="post-back">← All field notes</a>
@@ -74,13 +88,29 @@
   <div class="footer-inner">
     <div class="footer-brand"><span class="brand-mark" aria-hidden="true">M</span><span>Maddux Chiropractic</span></div>
     <div class="footer-links">
-      <a href="/#schedule">Schedule</a><a href="/#locations">Locations</a><a href="/blog/">Blog</a>
+      <a href="/#find">Find me</a><a href="/blog/">Field notes</a>
       <a href="mailto:justin@madduxdc.com">justin@madduxdc.com</a>
     </div>
     <p class="footer-fine">© <span id="yr"></span> Dr. Justin Maddux, DC · Sacramento, CA</p>
   </div>
 </footer>
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+(function () {
+  var toggle = document.querySelector('.nav-toggle');
+  var overlay = document.getElementById('navOverlay');
+  function setOpen(o) {
+    overlay.classList.toggle('open', o);
+    toggle.classList.toggle('open', o);
+    toggle.setAttribute('aria-expanded', o);
+    overlay.setAttribute('aria-hidden', !o);
+    document.body.style.overflow = o ? 'hidden' : '';
+  }
+  toggle.addEventListener('click', function () { setOpen(!overlay.classList.contains('open')); });
+  overlay.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+})();
+</script>
 
 </body>
 </html>
